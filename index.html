@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html ng-app="spreadsheetApp">
+
+<head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <script src="angular.min.js"></script>
+    <style>
+    </style>
+</head>
+
+<body data-ng-controller="spreadsheetCtrl">
+    <br>
+    <br>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-2">
+                <!-- Search Bar -->
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="inputSearch" placeholder="Search" data-ng-model="searchText">
+                                <div class="input-group-addon"><i class="fa fa-search"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Drop Down Menu -->
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3>Number of Rows</h3>
+                        <select class="form-control" ng-model="select.value">
+                            <option value="{{ googleSpreadsheetJSON.length }}" selected>All</option>
+                            <option value="10">10</option>
+                            <option value="20">20</option>
+                            <option value="30">30</option>
+                        </select>
+                    </div>
+                </div>
+                <!-- CheckBox -->
+                <div class="row">
+                    <div class="col-md-12">
+                        <h3>Organization</h3>
+                        <div data-ng-repeat="organization in getCategories() | unique: org.organization">
+                            <div class="checkbox">
+                                <label>
+                                    <input type="checkbox" ng-model="filter[organization]" /> {{ organization }}
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Main Body -->
+            <div class="col-md-10">
+                <div class="col-sm-4" data-ng-repeat="row in googleSpreadsheetJSON  | filter: searchText | limitTo: select.value | filter: filterByCategory">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <p class="lead">{{ row.firstname + " " + row.lastname}}</p>
+                            <p>{{ row.address }}</p>
+                            <p>{{ row.city }}</p>
+                            <p><strong>Organization:  {{ row.organization}}</strong>
+                            </p>
+
+                            <p>
+                                <img src="https://lh3.googleusercontent.com/uFp_tsTJboUY7kue5XAsGA=s28" width="28px" height="28px">
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <br>
+        <!-- The end of information being displayed -->
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-filter/0.5.4/angular-filter.min.js"></script>
+    <script src="spreadsheet.js"></script>
+</body>
+
+</html>
